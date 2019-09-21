@@ -13,9 +13,17 @@ export const mutations = {
 }
 
 export const actions = {
-  fetchUser({ commit, state, rootState }, { username }) {
+  fetchUser({
+    commit,
+    state,
+    rootState
+  }, {
+    username
+  }) {
     // 1. Check if we already have the user as a current user.
-    const { currentUser } = rootState.auth
+    const {
+      currentUser
+    } = rootState.auth
     if (currentUser && currentUser.username === username) {
       return Promise.resolve(currentUser)
     }
