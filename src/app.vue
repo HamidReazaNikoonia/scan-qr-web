@@ -18,7 +18,9 @@ export default {
     Even when routes use the same component, treat them
     as distinct and create the component again.
     -->
-    <RouterView :key="$route.fullPath" />
+    <transition name="moveInUp">
+      <RouterView :key="$route.fullPath" />
+    </transition>
   </div>
 </template>
 
@@ -86,5 +88,42 @@ h6 {
 
 #nprogress .bar {
   background: $color-link-text;
+}
+
+// ===
+// Router Transitions
+// ==
+
+.moveInUp-enter-active {
+  animation: fadeIn 0.9s ease-in;
+}
+
+// .moveInUp-enter-active{
+//   opacity: 0;
+//   transition: opacity 1s ease-in;
+// }
+// .moveInUp-leave-active {
+//   animation: moveInUp 0.3s ease-in;
+// }
+
+@keyframes moveInUp {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50px);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 </style>
