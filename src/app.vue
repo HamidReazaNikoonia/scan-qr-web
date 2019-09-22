@@ -1,7 +1,9 @@
 <script>
 import appConfig from '@src/app.config'
+import Maniheader from '@router/layouts/header'
 
 export default {
+  components: { Maniheader },
   page: {
     // All subcomponent titles will be injected into this template.
     titleTemplate(title) {
@@ -18,6 +20,7 @@ export default {
     Even when routes use the same component, treat them
     as distinct and create the component again.
     -->
+    <Maniheader />
     <transition name="moveInUp">
       <RouterView :key="$route.fullPath" />
     </transition>
