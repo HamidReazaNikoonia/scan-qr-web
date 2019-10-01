@@ -1,6 +1,16 @@
 // import axios from 'axios';
 
+export const mutations = {
+  togglehover(state, payload) {
+    // console.log('pay');
+    // console.log(payload);
+    state.hoverin = payload.val
+  }
+}
+
+
 export const state = {
+  hoverin: false,
   tracks: [{
       name: 'Mekanın Sahibi',
       artist: 'Norm Ender',

@@ -59,7 +59,7 @@ export default {
               d="M11.99 18.54l-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27L12 16zm0-11.47L17.74 9 12 13.47 6.26 9 12 4.53z"
             />
             </svg>`,
-          title: 'Sanazjonii',
+          title: 'player',
         },
         {
           svg: ` <svg
@@ -85,21 +85,50 @@ export default {
       }
     },
   },
+  mounted() {
+    const state__ = this.$store.state.track.hoverin
+    this.$root.$el.addEventListener('mousemove', (e) => {
+      // console.log(this.$store.commit('track/togglehover'))
+
+      // console.log(this.$store.tracks)
+      // console.log(this.$store.commit)
+
+      // console.log(e.clientY)
+      // TODO :: Performance ISSUE
+      // return false when e.clientY < 200 && state is true
+      // avoid call commit func every time event fired
+      if (e.clientY < 200) {
+        if (state__) {
+          return false
+        }
+        this.$store.commit('track/togglehover', { val: true })
+      } else {
+        if (!state__) {
+          return false
+        }
+        this.$store.commit('track/togglehover', { val: false })
+      }
+    })
+  },
   methods: {
     setTab(event, tab, index) {
+      const routeName = tab === 'Home' ? '' : tab.toLowerCase()
+      this.$router.push({
+        path: `/${routeName}`,
+      })
       const liParent = event.path.filter((i) => {
         return i.localName == 'li'
       })
-      console.log(liParent[0].clientWidth)
+      // console.log(liParent[0].clientWidth)
       this.activedTab = tab
-      this.indexItem = this.indexItem + liParent[0].clientWidth + 20
+      this.indexItem = index * liParent[0].clientWidth
     },
   },
 }
 </script>
 
 <template>
-  <div class="container">
+  <div :class="['container_', { hoverin: this.$store.state.track.hoverin }]">
     <ul>
       <div :style="bar" class="bar"></div>
 
@@ -119,26 +148,32 @@ export default {
 <style lang="scss" scoped>
 @import '@design';
 
-.container {
+.container_ {
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  min-width: 60vw;
-  max-width: $size-content-width-max;
+  // left: 50%;
+  transform: translateY(-90%);
+  min-width: 100vw;
   margin: 0 auto;
+  transition: all 0.6s ease-in-out;
 }
 
-.container ul {
-  padding: 5px 20px;
+.container_.hoverin {
+  transform: translateY(0%);
+  transition: all 0.3s ease-in-out;
+}
+
+.container_ ul {
+  padding: 12px 10px;
+  border-bottom-right-radius: 18px;
 }
 
 .bar {
   width: 150px;
-  height: calc(100% + 1.5rem);
+  height: calc(60% + 0.3rem);
   background-color: #fac300;
   position: absolute;
-  top: calc(2.5rem * 0.5);
-  left: calc(2.5rem * 0.5);
+  top: calc(0.9rem * 0.5);
+  left: calc(1.5rem * 0.5);
   border-radius: 90px;
 }
 

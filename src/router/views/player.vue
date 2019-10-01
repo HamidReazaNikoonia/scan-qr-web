@@ -150,7 +150,7 @@ export default {
 </script>
 
 <template>
-  <div class="container">
+  <div class="container_">
     <div class="wrapper">
       <div class="player">
         <div class="player__top">
@@ -226,7 +226,7 @@ export default {
 <style lang="scss" scoped>
 @import '@design';
 
-.container {
+.container_ {
   background: linear-gradient(
     60deg,
     rgba(84, 58, 183, 0.6) 0%,

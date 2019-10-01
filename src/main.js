@@ -3,6 +3,25 @@ import App from './app'
 import router from '@router'
 import store from '@state/store'
 import '@components/_globals'
+// import 'bootstrap/dist/css/bootstrap.css'
+// import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+// import {
+//   library
+// } from '@fortawesome/fontawesome-svg-core'
+// import {
+//   faUserSecret,
+//   fasFaAd
+// }
+// from '@fortawesome/free-solid-svg-icons'
+
+// import {
+//   FontAwesomeIcon
+// } from '@fortawesome/vue-fontawesome'
+
+// library.add(faUserSecret);
+// library.add(fasFaAd);
+// Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 // Don't warn about using the dev version of Vue in development.
 Vue.config.productionTip = process.env.NODE_ENV === 'production'
