@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import Notifications from 'vue-notification'
 import App from './app'
 import router from '@router'
 import store from '@state/store'
@@ -25,6 +26,21 @@ import '@components/_globals'
 
 // Don't warn about using the dev version of Vue in development.
 Vue.config.productionTip = process.env.NODE_ENV === 'production'
+Vue.use(Notifications);
+
+Vue.prototype.$notification = (data, option = {}) => {
+  if (data == '' || data.trim().length == 0) {
+    Vue.notify({
+      group: 'alert',
+      type: option.type || 'error',
+      title: option.title || ' ',
+      text: option.text || 'some thing wrong',
+    })
+    return false
+  } else {
+    return true
+  }
+}
 
 // If running inside Cypress...
 if (process.env.VUE_APP_TEST === 'e2e') {

@@ -16,6 +16,11 @@ export default [{
     component: () => lazyLoadView(import('@views/new-link')),
   },
   {
+    path: '/link',
+    name: 'link',
+    component: () => lazyLoadView(import('@views/qrlink')),
+  },
+  {
     path: '/login',
     name: 'login',
     component: () => lazyLoadView(import('@views/login')),

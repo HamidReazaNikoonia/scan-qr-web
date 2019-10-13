@@ -24,6 +24,7 @@ export default {
     <transition name="moveInUp">
       <RouterView :key="$route.fullPath" />
     </transition>
+    <notifications position="bottom left" group="alert" />
   </div>
 </template>
 
