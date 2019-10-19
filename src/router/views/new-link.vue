@@ -4,7 +4,7 @@ import axios from 'axios'
 export default {
   data: function() {
     return {
-      title: 'salam',
+      title: '',
       file: null,
       uploadMessage: '',
       details: '',
@@ -26,7 +26,6 @@ export default {
   },
   methods: {
     changeFieldState(index) {
-      console.log(index)
       this.fieldState = index
     },
 
@@ -142,7 +141,7 @@ export default {
 </script>
 
 <template>
-  <div class="container pt-5">
+  <div class=" new-link-container pt-5">
     <div class="row">
       <div class="col-12 px-2">
         <div class="d-flex justify-content-center flex-column px-5">
@@ -291,23 +290,23 @@ export default {
               </fieldset>
 
               <fieldset v-if="fieldState == 2" key="2">
-                <h2 class="fs-title">Personal Details</h2>
-                <h3 class="fs-subtitle">We will never sell it</h3>
+                <h2 class="fs-title">Your QR CODE Is Ready</h2>
+                <h5 class="fs-subtitle">You can see on your links list</h5>
 
-                <img :src="qrcodeView" />
-                <input
-                  type="button"
-                  name="previous"
-                  class="previous action-button"
-                  value="Previous"
-                  @click="changeFieldState(1)"
-                />
-                <input
-                  type="submit"
-                  name="submit"
-                  class="submit action-button"
-                  value="Submit"
-                />
+                <a class="pt-5" :href="qrcodeView" download>
+                  <img :src="qrcodeView" />
+                </a>
+
+                <div class="d-flex flex-row">
+                  <a
+                    style="width:250px"
+                    class="previous action-button"
+                    :href="qrcodeView"
+                    download
+                  >
+                    Download It
+                  </a>
+                </div>
               </fieldset>
             </transition-group>
           </form>
@@ -325,6 +324,13 @@ a:hover {
   margin-top: 100px;
   padding-bottom: 50px;
   border-radius: 30px;
+}
+
+.new-link-container:before {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  content: '';
   background: linear-gradient(to bottom right, #b0db7d 40%, #99dbb4 100%);
 }
 
@@ -379,11 +385,11 @@ input[type='file'] {
 /*buttons*/
 #msform .action-button {
   width: 100px;
-  background: #27ae60;
+  background: #3f82d7;
   font-weight: bold;
   color: white;
   border: 0 none;
-  border-radius: 1px;
+  border-radius: 28px;
   cursor: pointer;
   padding: 10px 5px;
   margin: 10px 5px;
@@ -528,8 +534,8 @@ input[type='file'] {
   display: block;
   background: #3f82d7;
   z-index: 2;
-  line-height: 56px;
-  height: 56px;
+  line-height: 46px;
+  height: 45px;
   border-radius: 28px;
   width: 100%;
   text-align: center;

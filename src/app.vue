@@ -1,9 +1,24 @@
 <script>
 import appConfig from '@src/app.config'
+import { authComputed } from '@state/helpers'
 import Maniheader from '@router/layouts/header'
 
 export default {
+  computed: {
+    ...authComputed,
+  },
   components: { Maniheader },
+  data: function() {
+    return {
+      hiddenHeader: false,
+    }
+  },
+  updated() {
+    console.log(this.loggedIn)
+    if (this.$route.name) {
+      // if (this.$route.name === 'profile' && this.loggedIn)
+    }
+  },
   page: {
     // All subcomponent titles will be injected into this template.
     titleTemplate(title) {
@@ -20,7 +35,10 @@ export default {
     Even when routes use the same component, treat them
     as distinct and create the component again.
     -->
-    <Maniheader />
+    <div v-if="!hiddenHeader">
+      <Maniheader />
+    </div>
+
     <transition name="moveInUp">
       <RouterView :key="$route.fullPath" />
     </transition>
