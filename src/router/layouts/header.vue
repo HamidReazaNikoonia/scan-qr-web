@@ -2,6 +2,7 @@
 export default {
   data: function() {
     return {
+      fullScreenDisplay: false,
       activedTab: 'Home',
       indexItem: 1,
       svgIcon: [
@@ -77,7 +78,38 @@ export default {
       ],
     }
   },
+  watch: {
+    fullScreenDisplay: function() {
+      if (this.fullScreenDisplay === true) {
+        document.body.style.overflow = 'hidden'
+      } else {
+        document.body.style.overflow = 'auto'
+      }
+    },
+  },
   methods: {
+    fullScreenMenuAppear() {
+      this.fullScreenDisplay = !this.fullScreenDisplay
+    },
+    generateTitle(title) {
+      switch (title) {
+        case 'Home':
+          return 'خانه'
+          break
+        case 'Files':
+          return 'فایل ها'
+          break
+        case 'player':
+          return 'پلیر'
+          break
+        case 'Profile':
+          return 'داشبورد'
+          break
+        case 'newlink':
+          return 'ایجاد لینک'
+          break
+      }
+    },
     setTab(tab) {
       console.log(tab)
       console.log(tab)
@@ -96,15 +128,26 @@ export default {
 
 <template>
   <div :class="['container_']">
+    <div v-if="fullScreenDisplay" class="menu-full-screen">
+      <div @click="fullScreenMenuAppear">X</div>
+    </div>
     <ul>
+      <span class="hamburger-menu">
+        <img
+          src="./../../assets/images/menu.svg"
+          @click="fullScreenMenuAppear"
+        />
+      </span>
       <li
         v-for="(tab, index) in svgIcon"
         :key="index"
         :data-active="activedTab == tab.title"
         @click="setTab(tab.title)"
       >
-        <div class="icon" v-html="tab.svg"> </div>
-        <div class="text"> {{ tab.title }} </div>
+        <div class="icon" v-html=""> </div>
+        <div style="font-weight:500" class="font-iranSans text">
+          {{ generateTitle(tab.title) }}
+        </div>
       </li>
     </ul>
   </div>
@@ -123,7 +166,7 @@ export default {
 }
 
 .container_ ul {
-  padding: 12px 10px;
+  padding: 14px 11px 10px;
 }
 
 ul {
@@ -164,22 +207,63 @@ li .text {
   position: absolute;
   left: 0;
   top: 0;
-  color: green;
+  color: rgb(53, 13, 80);
   opacity: 1;
   width: 90px;
   margin-left: 60px;
   pointer-events: none;
+  cursor: pointer;
   transition: opacity 0.2s ease-in-out;
   height: 100%;
   font-size: 0.9rem;
   font-weight: bold;
 }
 li[data-active] .text {
-  opacity: 0.1;
+  opacity: 0.3;
 }
 
 [data-active] ~ li .icon {
   -webkit-transform: translatex(calc((1 * 1px) + 90px));
   transform: translatex(calc((1 * 1px) + 90px));
+}
+
+ul .hamburger-menu {
+  display: none;
+}
+
+.menu-full-screen {
+  // display: none;
+  width: 100vw;
+  height: 100vh;
+  background-color: aliceblue;
+  z-index: 9999999;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+@media only screen and (max-width: 700px) {
+  ul > li {
+    display: none;
+  }
+
+  ul .hamburger-menu {
+    display: block;
+    opacity: 0.3;
+    cursor: pointer;
+    transition: all 0.6s ease-in;
+  }
+
+  ul .hamburger-menu:hover {
+    opacity: 1;
+    transition: all 0.6s ease-in;
+  }
+
+  .hamburger-menu > img {
+    width: 100%;
+    height: auto;
+    max-width: 30px;
+    float: right;
+  }
 }
 </style>
