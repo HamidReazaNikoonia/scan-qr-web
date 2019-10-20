@@ -151,18 +151,18 @@ export default {
               <li
                 :class="{ active: fieldState === 0 }"
                 @click="changeFieldState(0)"
-                >Account Setup</li
+                >آپلود فایل</li
               >
               <li
                 :class="{ active: fieldState === 1 }"
                 @click="changeFieldState(1)"
-                >Social Profiles</li
+                >ثبت توضیحات</li
               >
               <li
                 :class="{ active: fieldState === 2 }"
                 @click="changeFieldState(2)"
-                >Personal Details</li
-              >
+                >دریافت کد
+              </li>
             </ul>
             <!-- fieldsets -->
             <transition-group name="bounce">
@@ -171,8 +171,10 @@ export default {
                 key="0"
                 style="padding-bottom:140px"
               >
-                <h2 class="fs-title">Create your link</h2>
-                <h3 class="fs-subtitle"></h3>
+                <h2 class="font-iranSans fs-title"
+                  >فایل خود را اینجا آپلود کنید</h2
+                >
+
                 <input
                   v-model="title"
                   type="text"
@@ -193,8 +195,8 @@ export default {
                       :disabled="true"
                       @click="onSubmit"
                     >
-                      <span>{{
-                        uploadButton.display ? 'Upload Now' : 'Please Wait'
+                      <span class="font-iranSans">{{
+                        uploadButton.display ? 'آپلود فایل' : 'منتظر باشید ..'
                       }}</span>
                       <svg
                         class="load"
@@ -267,31 +269,37 @@ export default {
               </fieldset>
 
               <fieldset v-if="fieldState == 1" key="1">
-                <h2 class="fs-title">More Details</h2>
-                <h3 class="fs-subtitle"
-                  >you can write more details for our link</h3
+                <h2 class="font-iranSans fs-title">توضیحات </h2>
+                <h3 class="font-iranSans fs-subtitle"
+                  >اگر توضیحات بیشتری دارید اینجا بنویسید</h3
                 >
-                <textarea v-model="details" class="textareaclass"></textarea>
+                <textarea
+                  v-model="details"
+                  draggable="false"
+                  class="textareaclass"
+                ></textarea>
 
                 <input
                   type="button"
                   name="previous"
                   class="previous action-button"
-                  value="Previous"
+                  value="بازگشت"
                   @click="changeFieldState(0)"
                 />
                 <input
                   type="button"
                   name="next"
                   class="next action-button"
-                  value="Next"
+                  value="ارسال"
                   @click="generateLinkFromServer"
                 />
               </fieldset>
 
               <fieldset v-if="fieldState == 2" key="2">
-                <h2 class="fs-title">Your QR CODE Is Ready</h2>
-                <h5 class="fs-subtitle">You can see on your links list</h5>
+                <h2 class="font-iranSans fs-title">تبریک 😍 😍 </h2>
+                <h5 class="font-iranSans fs-subtitle"
+                  >درخواست شما با موفقیت انجام شد
+                </h5>
 
                 <a class="pt-5" :href="qrcodeView" download>
                   <img :src="qrcodeView" />
@@ -299,12 +307,12 @@ export default {
 
                 <div class="d-flex flex-row">
                   <a
-                    style="width:250px"
-                    class="previous action-button"
+                    style="width:250px;font-weight:200"
+                    class="font-iranSans previous action-button"
                     :href="qrcodeView"
                     download
                   >
-                    Download It
+                    دانلود
                   </a>
                 </div>
               </fieldset>
@@ -317,6 +325,7 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+@import '@design';
 a:hover {
   color: white !important;
 }
@@ -329,6 +338,8 @@ a:hover {
 .new-link-container:before {
   width: 100%;
   height: 100%;
+  z-index: 0;
+  top: $size-top-navigation;
   position: absolute;
   content: '';
   background: linear-gradient(to bottom right, #b0db7d 40%, #99dbb4 100%);
@@ -344,7 +355,8 @@ input[type='file'] {
 }
 
 .textareaclass {
-  min-height: 150px;
+  min-height: 130px;
+  resize: none;
 }
 
 /*form styles*/
@@ -356,8 +368,8 @@ input[type='file'] {
 #msform fieldset {
   background: white;
   border: 0 none;
-  border-radius: 3px;
-  box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+  border-radius: 15px 15px 4px 16px;
+  box-shadow: 0 0 27px -2px rgba(0, 0, 0, 0.2);
   padding: 20px 30px;
   box-sizing: border-box;
   width: 80%;
@@ -370,15 +382,21 @@ input[type='file'] {
   // padding-bottom: 140px;
 }
 /*inputs*/
+
+#msform input[name='next'],
+#msform input[name='previous'] {
+  font-weight: 300;
+}
+
 #msform input,
 #msform textarea {
   padding: 15px;
   border: 1px solid #ccc;
   border-radius: 3px;
-  margin-bottom: 10px;
+  margin: 20px auto;
   width: 100%;
   box-sizing: border-box;
-  font-family: montserrat;
+  font-family: IranSans;
   color: #2c3e50;
   font-size: 13px;
 }
@@ -400,20 +418,24 @@ input[type='file'] {
 }
 /*headings*/
 .fs-title {
-  font-size: 15px;
+  font-size: 16px;
   text-transform: uppercase;
-  color: #2c3e50;
+  color: #ac7d78;
   margin-bottom: 10px;
+  font-weight: 360;
 }
 .fs-subtitle {
   font-weight: normal;
   font-size: 13px;
   color: #666;
-  margin-bottom: 20px;
+  // margin-bottom: 20px;
+  margin-top: -14px;
 }
 /*progressbar*/
 #progressbar {
-  margin-bottom: 30px;
+  margin-bottom: 65px;
+  display: flex;
+  flex-direction: row-reverse;
   overflow: hidden;
   padding-left: 0;
   /*CSS counters to number the steps*/
@@ -422,10 +444,10 @@ input[type='file'] {
 #progressbar li {
   list-style-type: none;
   color: white;
+  font-family: IranSans;
   text-transform: uppercase;
-  font-size: 10px;
+  font-size: 15px;
   width: 33.33%;
-  float: left;
   border-radius: 100px;
   position: relative;
 }
@@ -439,7 +461,7 @@ input[type='file'] {
   font-size: 15px;
   color: #333;
   background: white;
-  margin: 0 auto 5px auto;
+  margin: 0 auto 20px auto;
 }
 
 #progressbar li::after {
