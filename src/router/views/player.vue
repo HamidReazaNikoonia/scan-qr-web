@@ -1,10 +1,13 @@
 <script>
 import iconControlls from '@components/icon-controlls'
+import Image from './../../assets/images/download.png'
+import axios from 'axios'
 
 export default {
   components: { iconControlls },
   data: function() {
     return {
+      Image,
       audio: null,
       circleLeft: null,
       barWidth: null,
@@ -17,12 +20,15 @@ export default {
       transitionName: null,
     }
   },
-  created() {
-    this.tracks = this.$store.state.track.tracks
+  async created() {
+    await this.getTracks()
+    // this.tracks = this.$store.state.track.tracks
     let vm = this
     this.currentTrack = this.tracks[0]
     this.audio = new Audio()
-    this.audio.src = this.currentTrack.source
+    this.audio.src = `http://localhost:3000/static/${
+      this.currentTrack.file_id ? this.currentTrack.file_id.fileName : ''
+    }`
     this.audio.ontimeupdate = function() {
       vm.generateTime()
     }
@@ -45,6 +51,34 @@ export default {
     }
   },
   methods: {
+    getTracks() {
+      return axios
+        .get('http://localhost:3000/v1/links')
+        .then((res) => {
+          console.log(res)
+
+          if (res.data) {
+            // const tracks_ = res.data.links || []
+            // const wi = tracks_.map((i) => {
+            //   i.favorited = false
+            // })
+            this.tracks = [
+              {
+                title: 'hamid',
+                description: 'fr',
+                file_id: {
+                  fileName: '1571641119397.mp3',
+                },
+                qrcode_img: 'dd',
+              },
+            ]
+            console.log(this.currentTrack)
+          }
+        })
+        .catch((err) => {
+          console.log(err.response || err)
+        })
+    },
     play() {
       if (this.audio.paused) {
         this.audio.play()
@@ -124,7 +158,9 @@ export default {
       this.barWidth = 0
       this.circleLeft = 0
       this.audio.currentTime = 0
-      this.audio.src = this.currentTrack.source
+      this.audio.src = `http://localhost:3000/static/${
+        this.currentTrack.file_id ? this.currentTrack.file_id.fileName : ''
+      }`
       setTimeout(() => {
         if (this.isTimerPlaying) {
           this.audio.play()
@@ -133,11 +169,11 @@ export default {
         }
       }, 300)
     },
-    favorite() {
-      this.tracks[this.currentTrackIndex].favorited = !this.tracks[
-        this.currentTrackIndex
-      ].favorited
-    },
+    // favorite() {
+    //   this.tracks[this.currentTrackIndex].favorited = !this.tracks[
+    //     this.currentTrackIndex
+    //   ].favorited
+    // },
     handler(e) {
       console.log(e)
     },
@@ -161,22 +197,22 @@ export default {
                 v-if="$index === currentTrackIndex"
                 :key="$index"
                 class="player-cover__item"
-                :style="{ backgroundImage: `url(${track.cover})` }"
+                :style="{ backgroundImage: `url(${Image})` }"
               ></div>
             </transition-group>
           </div>
           <div class="player-controls">
-            <div
-              class="player-controls__item -favorite"
-              :class="{ active: currentTrack.favorited }"
-              @click="favorite"
-            >
+            <div class="player-controls__item -favorite">
               <svg class="icon">
                 <use xlink:href="#icon-heart-o"></use>
               </svg>
             </div>
             <a
-              :href="currentTrack.url"
+              :href="
+                `http://localhost:3000/static/${
+                  currentTrack.file_id ? currentTrack.file_id.fileName : ''
+                }`
+              "
               target="_blank"
               class="player-controls__item"
             >
@@ -205,8 +241,10 @@ export default {
         <div ref="progress" class="progress">
           <div class="progress__top">
             <div v-if="currentTrack" class="album-info">
-              <div class="album-info__name">{{ currentTrack.artist }}</div>
-              <div class="album-info__track">{{ currentTrack.name }}</div>
+              <div class="album-info__name">{{ currentTrack.title }}</div>
+              <div class="album-info__track">{{
+                currentTrack.description
+              }}</div>
             </div>
             <div class="progress__duration">{{ duration }}</div>
           </div>
