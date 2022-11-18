@@ -50,7 +50,7 @@
     "@vue/cli-plugin-e2e-cypress": "3.7.x",
     "@vue/cli-plugin-eslint": "3.7.x",
     "@vue/cli-plugin-unit-jest": "3.7.x",
-    "@vue/cli-service": "3.7.x",
+    "@vue/cli-service": "5.0.x",
     "@vue/eslint-config-prettier": "4.0.x",
     "@vue/eslint-config-standard": "4.0.x",
     "@vue/test-utils": "1.0.0-beta.29",
@@ -75,7 +75,7 @@
     "stylelint-config-standard": "18.3.x",
     "stylelint-scss": "3.6.x",
     "vue-template-compiler": "2.6.10",
-    "vuepress": "0.14.x"
+    "vuepress": "1.9.x"
   },
   "engines": {
     "node": ">=10.13.3",
